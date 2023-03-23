@@ -21,7 +21,7 @@ namespace HttpClientProject.Helpers
         /// </summary>
         /// <param name="httpClient"></param>
         /// <param name="booking"></param>
-        /// <returns>ask<RestResponse<HttpResponseMessage>></returns>
+        /// <returns>Task<RestResponse<HttpResponseMessage>></returns>
         public static async Task<HttpResponseMessage> PostBooking(HttpClient httpClient, Booking booking)
         {
             var serialized = JsonConvert.SerializeObject(booking);

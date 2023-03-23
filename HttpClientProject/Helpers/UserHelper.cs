@@ -12,6 +12,12 @@ namespace HttpClientProject.Helpers
 {
     public class UserHelper
     {
+        /// <summary>
+        /// Reusable Method for authenticating user
+        /// </summary>
+        /// <param name="httpClient"></param>
+        /// <param name=""></param>
+        /// <returns>Token</returns>
         public static async Task<Token> AuthenticateUser(HttpClient httpClient)
         {
             User user = new User();

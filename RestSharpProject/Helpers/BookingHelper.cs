@@ -20,7 +20,7 @@ namespace RestSharpProject.Helpers
         /// </summary>
         /// <param name="restClient"></param>
         /// <param name="booking"></param>
-        /// <returns>ask<RestResponse<BookingSummary>></returns>
+        /// <returns>Task<RestResponse<BookingSummary>></returns>
         public static async Task<RestResponse<BookingSummary>> PostBooking(RestClient restClient, Booking booking)
         {
             //prepare Post request

@@ -13,7 +13,10 @@ namespace SoapProject.Tests
             countryInfoClient = new CountryInfoServiceSoapTypeClient(CountryInfoServiceSoapTypeClient.EndpointConfiguration.CountryInfoServiceSoap);
         }
 
-
+        /// <summary>
+        /// Test to verify Country record correctness
+        /// </summary>
+        /// <returns></returns>
         [TestMethod]
         public void TC1_VerifyFullCountryInfoMethod()
         {
@@ -29,6 +32,10 @@ namespace SoapProject.Tests
             Assert.IsTrue(randomCountry.sName.Equals(countryInfo.sName), "Country name mismatched");
         }
 
+        /// <summary>
+        /// Test to verify Country ISO Code correctness using random records
+        /// </summary>
+        /// <returns></returns>
         [TestMethod]
         public void TC1_VerifyCountryISOCodeMethod()
         {
@@ -69,13 +76,20 @@ namespace SoapProject.Tests
                 Assert.IsTrue(randomCountries[ctr].sISOCode.Equals(countryISOCodeList[ctr]), "Country code mismatched");
         }
 
-
+        /// <summary>
+        /// Private method for retrieving the Country records list
+        /// </summary>
+        /// <returns>List<tCountryCodeAndName></returns>
         private List<tCountryCodeAndName> getCountryNamesByCode()
         {
             List<tCountryCodeAndName> listOfCountryNames = countryInfoClient.ListOfCountryNamesByCode();
             return listOfCountryNames;
         }
 
+        /// <summary>
+        /// Private method for getting random Country record
+        /// </summary>
+        /// <returns>tCountryCodeAndName</returns>
         private tCountryCodeAndName getRandomCountry(List<tCountryCodeAndName> listOfCountryNames)
         {
             Random randonmizer = new Random();

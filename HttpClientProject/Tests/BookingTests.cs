@@ -25,6 +25,10 @@ namespace HttpClientProject.Tests
             httpClient.DefaultRequestHeaders.Add("Cookie", $"token={token.TokenAuth}");
         }
 
+        /// <summary>
+        /// Removed created test data after each test method
+        /// </summary>
+        /// <returns></returns>
         [TestCleanup]
         public async Task Cleanup()
         {
@@ -34,6 +38,10 @@ namespace HttpClientProject.Tests
             }
         }
 
+        /// <summary>
+        /// Automated test to verify creation of Booking (POST method)
+        /// </summary>
+        /// <returns></returns>
         [TestMethod]
         public async Task TC1_VerifyCreationOfBooking()
         {
@@ -60,7 +68,10 @@ namespace HttpClientProject.Tests
             Assert.AreEqual(booking.AdditionalNeeds, getResponse.AdditionalNeeds, "AdditionalNeeds mismatched");
         }
 
-
+        /// <summary>
+        /// Automated test to verify updating of Booking (PUT method)
+        /// </summary>
+        /// <returns></returns>
         [TestMethod]
         public async Task TC2_VerifyUpdateOfBooking()
         {
@@ -90,6 +101,10 @@ namespace HttpClientProject.Tests
         }
 
 
+        /// <summary>
+        /// Automated test to verify deletion of Booking (DELETE method)
+        /// </summary>
+        /// <returns></returns>
         [TestMethod]
         public async Task TC3_VerifyDeletionOfBookingById()
         {
@@ -109,6 +124,10 @@ namespace HttpClientProject.Tests
             Assert.AreEqual(HttpStatusCode.Created, deleteResponse.StatusCode, "DELETE method HttpStatus Code mismatched");
         }
 
+        /// <summary>
+        /// Automated test to verify NEGATIVE scenario on retrieving of Booking (GET method)
+        /// </summary>
+        /// <returns></returns>
         [TestMethod]
         public async Task TC4_VerifyGetInvalidBookingId()
         {

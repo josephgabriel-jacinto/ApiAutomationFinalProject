@@ -12,6 +12,12 @@ namespace RestSharpProject.Helpers
 {
     public class UserHelper
     {
+        /// <summary>
+        /// Reusable Method for Authenticating User
+        /// </summary>
+        /// <param name="restClient"></param>
+        /// <param name=""></param>
+        /// <returns>Token</returns>
         public static async Task<Token> AuthenticateUser(RestClient restClient)
         {
             //Prepare User object with username and password
