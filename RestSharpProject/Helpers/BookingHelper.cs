@@ -1,10 +1,13 @@
-﻿using RestSharp;
+﻿using Newtonsoft.Json;
+using RestSharp;
 using RestSharpProject.DataModels;
 using RestSharpProject.Resources;
 using RestSharpProject.Tests.GenerateData;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,14 +20,14 @@ namespace RestSharpProject.Helpers
         /// </summary>
         /// <param name="restClient"></param>
         /// <param name="booking"></param>
-        /// <returns></returns>
+        /// <returns>ask<RestResponse<BookingSummary>></returns>
         public static async Task<RestResponse<BookingSummary>> PostBooking(RestClient restClient, Booking booking)
         {
             //prepare Post request
-            var postRequest = new RestRequest(ApiEndpoint.PostBooking());
+            var postRequest = new RestRequest(ApiEndpoint.PostBooking(), Method.Post);
             postRequest.AddHeader("Accept", "application/json");
-            postRequest.AddOrUpdateHeader("ContentType", "application/json");
-            postRequest.AddJsonBody(booking, ContentType.Json);
+            postRequest.AddHeader("Content-Type", "application/json");
+            postRequest.AddJsonBody(JsonConvert.SerializeObject(booking));
 
             //execute request
             return await restClient.ExecutePostAsync<BookingSummary>(postRequest);
@@ -35,19 +38,17 @@ namespace RestSharpProject.Helpers
         /// </summary>
         /// <param name="restClient"></param>
         /// <param name="bookingSummary"></param>
-        /// <returns></returns>
-        public static async Task<RestResponse> PutBooking(RestClient restClient, BookingSummary bookingSummary, Token token)
+        /// <returns>ask<RestResponse></returns>
+        public static async Task<RestResponse> PutBooking(RestClient restClient, BookingSummary bookingSummary)
         {
             //prepare request
             var putRequest = new RestRequest(ApiEndpoint.PutBookingById(bookingSummary.BookingId));
             putRequest.AddHeader("Accept", "application/json");
-            putRequest.AddHeader("Cookie", $"token={token}");
-            putRequest.AddJsonBody(bookingSummary.Booking);
-
+            putRequest.AddHeader("Content-Type", "application/json");
+            putRequest.AddJsonBody(JsonConvert.SerializeObject(bookingSummary.Booking));
+            
             //execute request
-            var putResponse = await restClient.ExecutePutAsync<RestResponse>(putRequest);
-
-            return putResponse;
+            return await restClient.ExecutePutAsync<RestResponse>(putRequest);
         }
 
         /// <summary>
@@ -55,16 +56,15 @@ namespace RestSharpProject.Helpers
         /// </summary>
         /// <param name="restClient"></param>
         /// <param name="id"></param>
-        /// <returns></returns>
+        /// <returns>Task<RestResponse<Booking>></returns>
         public static async Task<RestResponse<Booking>> GetBookingById(RestClient restClient, long id)
         {
             //prepare request
             var getRequest = new RestRequest(ApiEndpoint.GetBookingById(id));
-
+            getRequest.AddHeader("Accept", "application/json");
+            
             //execute request
-            var getResponse = await restClient.ExecuteGetAsync<Booking>(getRequest);
-
-            return getResponse;
+            return await restClient.ExecuteGetAsync<Booking>(getRequest);
         }
 
         /// <summary>
@@ -73,17 +73,15 @@ namespace RestSharpProject.Helpers
         /// <param name="restClient"></param>
         /// <param name="id"></param>
         /// <param name="token"></param>
-        /// <returns></returns>
+        /// <returns>Task<RestResponse></returns>
         public static async Task<RestResponse> DeleteBookingById(RestClient restClient, long id, Token token)
         {
             //prepare request
             var deleteRequest = new RestRequest(ApiEndpoint.DeleteBookingById(id));
-            deleteRequest.AddHeader("Cookie", $"token={token}");
-
+            deleteRequest.AddHeader("Content-Type", "application/json");
+            
             //execute request
-            var getResponse = await restClient.DeleteAsync(deleteRequest);
-
-            return getResponse;
+            return await restClient.DeleteAsync(deleteRequest);
         }
 
     }

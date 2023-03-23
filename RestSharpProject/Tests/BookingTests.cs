@@ -21,7 +21,8 @@ namespace RestSharpProject.Tests
         [TestInitialize]
         public async Task TestInitialize()
         {
-       
+            var token = await UserHelper.AuthenticateUser(restClient);
+            restClient.AddDefaultHeader("Cookie", $"token={token.TokenAuth}");
         }
 
         /// <summary>
@@ -75,7 +76,6 @@ namespace RestSharpProject.Tests
         public async Task TC2_VerifyUpdateBooking()
         {
             //prepare data
-            token = await UserHelper.AuthenticateUser(restClient);
             Booking booking = BookingData.NewBookingData();
 
             //Execute Post request method
@@ -89,7 +89,7 @@ namespace RestSharpProject.Tests
             postResponse.Data.Booking.LastName = "GabUpdated";
 
             //Execute Put request method
-            var putResponse = await BookingHelper.PutBooking(restClient, postResponse.Data, token);
+            var putResponse = await BookingHelper.PutBooking(restClient, postResponse.Data);
 
             //Execute Get request method
             var getUpdatedResponse = await BookingHelper.GetBookingById(restClient, postResponse.Data.BookingId);
@@ -108,14 +108,10 @@ namespace RestSharpProject.Tests
         public async Task TC3_VerifyDeleteBooking()
         {
             //prepare data
-            token = await UserHelper.AuthenticateUser(restClient);
             Booking booking = BookingData.NewBookingData();
 
             //Execute Post request method
             var postResponse = await BookingHelper.PostBooking(restClient, booking);
-
-            //add to cleanup list
-            bookingSummaryCleanupList.Add(postResponse.Data);
 
             //Execute Get request method
             var deleteResponse = await BookingHelper.DeleteBookingById(restClient, postResponse.Data.BookingId, token);

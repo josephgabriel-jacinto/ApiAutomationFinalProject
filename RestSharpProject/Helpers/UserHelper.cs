@@ -1,4 +1,5 @@
-﻿using RestSharp;
+﻿using Newtonsoft.Json;
+using RestSharp;
 using RestSharpProject.DataModels;
 using RestSharpProject.Resources;
 using System;
@@ -15,18 +16,15 @@ namespace RestSharpProject.Helpers
         {
             //Prepare User object with username and password
             User user = new User();
-            Token token = new Token();
-
+           
             //Prepare request
             var postRequest = new RestRequest(ApiEndpoint.AuthenticateUser());
-            postRequest.AddHeader("Accept", "application/json");
+            postRequest.AddHeader("Content-Type", "application/json");
             postRequest.AddJsonBody(user);
 
             //Execute POST request
             var postResponse = await restClient.ExecutePostAsync<Token>(postRequest);
-            token.TokenAuth = postResponse.Data.TokenAuth;
-
-            return token;
+            return JsonConvert.DeserializeObject<Token>(postResponse.Content);
         }
     }
 }
